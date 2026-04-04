@@ -1,0 +1,220 @@
+/* ============================================================
+   WORDDASH — Leaderboard Page Styles
+   ============================================================ */
+
+.leaderboard-layout {
+  width: 100%;
+  max-width: var(--max-w);
+}
+
+/* --- Action bar --- */
+.lb-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-4);
+  flex-wrap: wrap;
+}
+
+.lb-filters {
+  display: flex;
+  gap: var(--sp-3);
+  flex: 1;
+  flex-wrap: wrap;
+}
+
+.lb-filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+}
+
+.lb-filter-group label {
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.lb-select {
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--r-btn);
+  color: var(--text);
+  font-size: 0.875rem;
+  padding: 7px var(--sp-3);
+  outline: none;
+  cursor: pointer;
+  font-family: var(--font-ui);
+  transition: border-color var(--t-fast);
+  min-width: 140px;
+}
+
+.lb-select:focus {
+  border-color: var(--accent);
+}
+
+.lb-file-input {
+  display: none;
+}
+
+.lb-action-btns {
+  display: flex;
+  gap: var(--sp-2);
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+/* --- Table --- */
+.lb-table-wrap {
+  background: var(--surface);
+  border-radius: var(--r-card);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.lb-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.lb-table thead {
+  background: var(--surface-alt);
+  border-bottom: 1px solid var(--border);
+}
+
+.lb-table th {
+  padding: var(--sp-3) var(--sp-4);
+  text-align: left;
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.lb-table th.num,
+.lb-table td.num {
+  text-align: right;
+}
+
+.lb-table td {
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--border);
+  transition: background var(--t-fast);
+  vertical-align: middle;
+}
+
+.lb-table tr:last-child td {
+  border-bottom: none;
+}
+
+.lb-table tbody tr:hover td {
+  background: var(--surface-alt);
+}
+
+/* Rank medals */
+.lb-table tr.rank-1 td { background: rgba(255, 215, 0,  0.06); }
+.lb-table tr.rank-2 td { background: rgba(192, 192, 192, 0.06); }
+.lb-table tr.rank-3 td { background: rgba(205, 127, 50,  0.06); }
+
+.lb-table tr.rank-1:hover td { background: rgba(255, 215, 0,  0.1); }
+.lb-table tr.rank-2:hover td { background: rgba(192, 192, 192, 0.1); }
+.lb-table tr.rank-3:hover td { background: rgba(205, 127, 50,  0.1); }
+
+.rank-cell {
+  font-size: 1.1rem;
+  width: 52px;
+}
+
+.wpm-cell {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  font-family: var(--font-mono);
+}
+
+.name-cell {
+  font-weight: 500;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.accuracy-cell,
+.net-wpm-cell {
+  font-variant-numeric: tabular-nums;
+  font-family: var(--font-mono);
+}
+
+.mode-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: var(--r-pill);
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: var(--surface-alt);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  letter-spacing: 0.03em;
+}
+
+.lang-badge {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: var(--r-pill);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  background: var(--surface-alt);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.date-cell {
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+  white-space: nowrap;
+}
+
+/* --- Empty state --- */
+.lb-empty {
+  padding: var(--sp-8) var(--sp-5);
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.lb-empty-icon {
+  font-size: 2.5rem;
+  margin-bottom: var(--sp-3);
+  opacity: 0.4;
+}
+
+.lb-empty p {
+  font-size: 0.9rem;
+}
+
+/* --- Score count badge --- */
+.score-count {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  margin-bottom: var(--sp-4);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .lb-table th:nth-child(n+5),
+  .lb-table td:nth-child(n+5) {
+    display: none;
+  }
+  .lb-actions { flex-direction: column; align-items: stretch; }
+  .lb-action-btns { justify-content: stretch; }
+  .lb-action-btns .btn { flex: 1; justify-content: center; }
+}

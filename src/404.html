@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-lang="en" data-font="mono" data-caret="line">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WordDash — 404</title>
+
+  <script>
+    (function () {
+      try {
+        var s = JSON.parse(localStorage.getItem('wds_settings') || '{}');
+        var l = localStorage.getItem('wds_lang');
+        var h = document.documentElement;
+        h.dataset.theme = s.theme || 'dark';
+        h.dataset.lang  = l ? JSON.parse(l) : 'en';
+        h.dataset.font  = s.font  || 'mono';
+        h.dataset.caret = s.caret || 'line';
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="stylesheet" href="css/themes.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+
+  <style>
+    .not-found {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--sp-4);
+      min-height: calc(100vh - var(--nav-h) - 80px);
+      text-align: center;
+      padding: var(--sp-5);
+      animation: fadeIn 0.4s ease;
+    }
+    .not-found-code {
+      font-size: 6rem;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      color: var(--accent);
+      line-height: 1;
+      opacity: 0.8;
+    }
+    .not-found h1 {
+      font-size: 1.5rem;
+      color: var(--text);
+    }
+    .not-found p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="main-nav" role="navigation" aria-label="Main navigation"></nav>
+
+  <main>
+    <div class="not-found" role="main">
+      <p class="not-found-code">404</p>
+      <h1 data-i18n="404.heading">Page not found</h1>
+      <p data-i18n="404.message">The page you're looking for doesn't exist.</p>
+      <a href="index.html" class="btn btn-primary" data-i18n="404.btn">Go home</a>
+    </div>
+  </main>
+
+  <script src="js/data/i18n/en.js"></script>
+  <script src="js/data/i18n/bg.js"></script>
+  <script src="js/worddash.js"></script>
+  <script>
+    WD.settings.apply();
+    WD.i18n.applyTranslations();
+    WD.nav.render();
+  </script>
+</body>
+</html>

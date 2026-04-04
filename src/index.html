@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-lang="en" data-font="mono" data-caret="line">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="WordDash — measure your typing speed and accuracy in English and Bulgarian." />
+  <title>WordDash — Typing Speed Test</title>
+
+  <!-- Flash prevention: apply theme + lang before CSS renders -->
+  <script>
+    (function () {
+      try {
+        var s = JSON.parse(localStorage.getItem('wds_settings') || '{}');
+        var l = localStorage.getItem('wds_lang');
+        var h = document.documentElement;
+        h.dataset.theme = s.theme || 'dark';
+        h.dataset.lang  = l ? JSON.parse(l) : 'en';
+        h.dataset.font  = s.font  || 'mono';
+        h.dataset.caret = s.caret || 'line';
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="stylesheet" href="css/themes.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+</head>
+<body>
+
+  <!-- Navigation (injected by nav.js) -->
+  <nav id="main-nav" role="navigation" aria-label="Main navigation"></nav>
+
+  <main>
+    <div class="test-card" role="main">
+
+      <!-- ── Mode tabs ──────────────────────────────────────── -->
+      <div class="mode-tabs" role="tablist" aria-label="Test mode">
+        <button class="mode-tab active" role="tab" aria-selected="true"
+                data-mode="time"  data-i18n="mode.time">Time</button>
+        <button class="mode-tab" role="tab" aria-selected="false"
+                data-mode="words" data-i18n="mode.words">Words</button>
+        <button class="mode-tab" role="tab" aria-selected="false"
+                data-mode="quote" data-i18n="mode.quote">Quote</button>
+        <button class="mode-tab" role="tab" aria-selected="false"
+                data-mode="zen"   data-i18n="mode.zen">Zen</button>
+      </div>
+
+      <!-- ── Sub-options ────────────────────────────────────── -->
+      <div class="mode-options" aria-label="Mode options">
+        <div class="options-group" id="options-time">
+          <button class="mode-option" data-value="15">15</button>
+          <button class="mode-option" data-value="30">30</button>
+          <button class="mode-option active" data-value="60">60</button>
+          <button class="mode-option" data-value="120">120</button>
+        </div>
+        <div class="options-group hidden" id="options-words">
+          <button class="mode-option" data-value="10">10</button>
+          <button class="mode-option active" data-value="25">25</button>
+          <button class="mode-option" data-value="50">50</button>
+          <button class="mode-option" data-value="100">100</button>
+        </div>
+        <div class="options-group hidden" id="options-quote">
+          <button class="mode-option active" data-value="short"
+                  data-i18n="quote.short">Short</button>
+          <button class="mode-option" data-value="medium"
+                  data-i18n="quote.medium">Medium</button>
+          <button class="mode-option" data-value="long"
+                  data-i18n="quote.long">Long</button>
+          <button class="mode-option" data-value="mixed"
+                  data-i18n="quote.mixed">Mixed</button>
+        </div>
+        <!-- zen has no sub-options — empty group keeps min-height -->
+        <div class="options-group hidden" id="options-zen"></div>
+      </div>
+
+      <!-- ── Typing area (hidden when results are shown) ────── -->
+      <div id="typing-area">
+
+        <!-- Live stats -->
+        <div class="live-stats" aria-live="polite" aria-atomic="true">
+          <div class="stat">
+            <span class="stat-value" id="live-wpm">0</span>
+            <span class="stat-label" data-i18n="stats.wpm">WPM</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value timer-value" id="timer-display">01:00</span>
+            <span class="stat-label" data-i18n="stats.time">Time</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="live-accuracy">100%</span>
+            <span class="stat-label" data-i18n="stats.accuracy">Accuracy</span>
+          </div>
+        </div>
+
+        <!-- Reference paragraph (rendered by highlighter.js) -->
+        <div id="paragraph-display" class="paragraph"
+             aria-label="Text to type" aria-live="polite"></div>
+
+        <!-- Progress bar -->
+        <div class="progress-track" role="progressbar"
+             aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
+             aria-label="Typing progress">
+          <div id="progress-bar" class="progress-bar"></div>
+        </div>
+
+        <!-- Input -->
+        <textarea
+          id="text-input"
+          class="typing-input"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+          data-i18n-placeholder="test.placeholder"
+          placeholder="Start typing here..."
+          aria-label="Typing input"
+        ></textarea>
+
+        <!-- Controls -->
+        <div class="controls">
+          <button id="restart-btn" class="btn btn-secondary"
+                  data-i18n="test.restart">Restart</button>
+          <button id="stop-btn" class="btn btn-primary"
+                  data-i18n="test.stop">Stop</button>
+        </div>
+
+        <p class="hint" data-i18n="test.hint">Tab to restart&nbsp;•&nbsp;Esc to stop</p>
+      </div>
+
+      <!-- ── Results panel ──────────────────────────────────── -->
+      <div id="results-panel" aria-live="assertive" aria-label="Test results">
+
+        <div class="results-headline">
+          <h2 data-i18n="results.title">Test Complete</h2>
+          <div class="results-wpm-hero">
+            <span class="wpm-number" id="result-wpm">0</span>
+            <span class="wpm-label" data-i18n="results.wpm">WPM</span>
+          </div>
+        </div>
+
+        <div class="results-grid">
+          <div class="result-item">
+            <span class="result-value" id="result-net-wpm">0</span>
+            <span class="result-label" data-i18n="results.net-wpm">Net WPM</span>
+          </div>
+          <div class="result-item">
+            <span class="result-value" id="result-accuracy">0%</span>
+            <span class="result-label" data-i18n="results.accuracy">Accuracy</span>
+          </div>
+          <div class="result-item">
+            <span class="result-value" id="result-chars">0/0</span>
+            <span class="result-label" data-i18n="results.chars">Characters</span>
+          </div>
+          <div class="result-item">
+            <span class="result-value" id="result-time">0s</span>
+            <span class="result-label" data-i18n="results.time">Time</span>
+          </div>
+          <div class="result-item">
+            <span class="result-value result-value--sm" id="result-mode">—</span>
+            <span class="result-label" data-i18n="results.mode">Mode</span>
+          </div>
+          <div class="result-item">
+            <span class="result-value result-value--sm" id="result-lang">EN</span>
+            <span class="result-label" data-i18n="lb.col-lang">Lang</span>
+          </div>
+        </div>
+
+        <!-- Save to leaderboard -->
+        <div id="save-prompt" class="save-prompt" style="display:none;">
+          <input type="text" id="player-name-input" maxlength="24"
+                 data-i18n-placeholder="results.name-placeholder"
+                 placeholder="Your name…"
+                 aria-label="Your name for the leaderboard" />
+          <button id="save-score-btn" class="btn btn-primary"
+                  data-i18n="results.save">Save Score</button>
+        </div>
+
+        <div class="result-actions">
+          <button id="try-again-btn" class="btn btn-secondary"
+                  data-i18n="results.try-again">Try Again</button>
+          <button id="new-test-btn" class="btn btn-primary"
+                  data-i18n="results.new-test">New Test</button>
+        </div>
+
+      </div>
+      <!-- / results-panel -->
+
+    </div>
+    <!-- / test-card -->
+  </main>
+
+  <footer>
+    <p>
+      <kbd>Tab</kbd> <span data-i18n="test.restart">Restart</span>
+      &nbsp;·&nbsp;
+      <kbd>Esc</kbd> <span data-i18n="test.stop">Stop</span>
+    </p>
+  </footer>
+
+  <script src="js/data/i18n/en.js"></script>
+  <script src="js/data/i18n/bg.js"></script>
+  <script src="js/data/paragraphs.js"></script>
+  <script src="js/data/quotes.js"></script>
+  <script src="js/data/words.js"></script>
+  <script src="js/worddash.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>

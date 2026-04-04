@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-lang="en" data-font="mono" data-caret="line">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WordDash — Leaderboard</title>
+
+  <script>
+    (function () {
+      try {
+        var s = JSON.parse(localStorage.getItem('wds_settings') || '{}');
+        var l = localStorage.getItem('wds_lang');
+        var h = document.documentElement;
+        h.dataset.theme = s.theme || 'dark';
+        h.dataset.lang  = l ? JSON.parse(l) : 'en';
+        h.dataset.font  = s.font  || 'mono';
+        h.dataset.caret = s.caret || 'line';
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="stylesheet" href="css/themes.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="stylesheet" href="css/leaderboard.css" />
+</head>
+<body>
+
+  <nav id="main-nav" role="navigation" aria-label="Main navigation"></nav>
+
+  <main>
+    <div class="leaderboard-layout">
+
+      <header class="page-header">
+        <h1 data-i18n="lb.title">Leaderboard</h1>
+        <p data-i18n="lb.subtitle">Top scores from all sessions</p>
+      </header>
+
+      <!-- Action bar -->
+      <div class="lb-actions">
+        <div class="lb-filters">
+          <div class="lb-filter-group">
+            <label for="filter-mode" data-i18n="lb.filter-label-mode">Mode</label>
+            <select id="filter-mode" class="lb-select" aria-label="Filter by mode">
+              <option value="" data-i18n="lb.filter-mode">All modes</option>
+              <option value="time-15">time-15</option>
+              <option value="time-30">time-30</option>
+              <option value="time-60">time-60</option>
+              <option value="time-120">time-120</option>
+              <option value="words-10">words-10</option>
+              <option value="words-25">words-25</option>
+              <option value="words-50">words-50</option>
+              <option value="words-100">words-100</option>
+              <option value="quote-short">quote-short</option>
+              <option value="quote-medium">quote-medium</option>
+              <option value="quote-long">quote-long</option>
+              <option value="zen">zen</option>
+            </select>
+          </div>
+
+          <div class="lb-filter-group">
+            <label for="filter-lang" data-i18n="lb.filter-label-lang">Language</label>
+            <select id="filter-lang" class="lb-select" aria-label="Filter by language">
+              <option value="" data-i18n="lb.filter-lang">All languages</option>
+              <option value="en" data-i18n="lb.lang-en">English</option>
+              <option value="bg" data-i18n="lb.lang-bg">Bulgarian</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="lb-action-btns">
+          <button id="export-btn" class="btn btn-ghost"
+                  data-i18n="lb.export">Export</button>
+          <label class="btn btn-ghost" for="import-input" style="cursor:pointer;"
+                 data-i18n="lb.import">Import</label>
+          <input type="file" id="import-input" class="lb-file-input"
+                 accept=".json" aria-label="Import scores file" />
+          <button id="clear-btn" class="btn btn-ghost"
+                  data-i18n="lb.clear">Clear All</button>
+        </div>
+      </div>
+
+      <!-- Score table -->
+      <div class="lb-table-wrap">
+        <table class="lb-table" id="scores-table">
+          <thead>
+            <tr>
+              <th data-i18n="lb.col-rank">Rank</th>
+              <th data-i18n="lb.col-name">Name</th>
+              <th class="num" data-i18n="lb.col-wpm">WPM</th>
+              <th class="num" data-i18n="lb.col-net">Net WPM</th>
+              <th class="num" data-i18n="lb.col-acc">Accuracy</th>
+              <th data-i18n="lb.col-mode">Mode</th>
+              <th data-i18n="lb.col-lang">Lang</th>
+              <th data-i18n="lb.col-date">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Populated by leaderboard.js -->
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="js/data/i18n/en.js"></script>
+  <script src="js/data/i18n/bg.js"></script>
+  <script src="js/worddash.js"></script>
+  <script src="js/pages/leaderboard.js"></script>
+</body>
+</html>

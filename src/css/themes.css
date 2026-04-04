@@ -1,0 +1,116 @@
+/* ============================================================
+   WORDDASH — Design System Tokens
+   Default theme: dark (Tokyo Night palette)
+   Variants: [data-theme="light"], [data-theme="hacker"]
+   ============================================================ */
+
+:root {
+  /* --- Colour palette: dark (default) --- */
+  --bg:            #1a1b26;
+  --surface:       #24283b;
+  --surface-alt:   #2f3449;
+  --border:        #414868;
+  --text:          #c0caf5;
+  --text-muted:    #565f89;
+  --accent:        #7aa2f7;
+  --accent-hover:  #5d87e1;
+  --correct:       #9ece6a;
+  --error-text:    #f7768e;
+  --error-bg:      rgba(247, 118, 142, 0.13);
+  --pending:       #565f89;
+  --caret:         #7aa2f7;
+  --selection:     rgba(122, 162, 247, 0.25);
+
+  /* --- Shadows --- */
+  --shadow-sm: 0 1px 4px  rgba(0, 0, 0, 0.45);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.55);
+  --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.65);
+
+  /* --- Typography --- */
+  --font-ui:    system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --font-mono:  'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Courier New', monospace;
+
+  /* --- Spacing (8px base unit) --- */
+  --sp-1:  4px;
+  --sp-2:  8px;
+  --sp-3:  12px;
+  --sp-4:  16px;
+  --sp-5:  24px;
+  --sp-6:  32px;
+  --sp-7:  48px;
+  --sp-8:  64px;
+
+  /* --- Layout --- */
+  --max-w:        900px;
+  --nav-h:        56px;
+  --r-card:       14px;
+  --r-btn:        8px;
+  --r-pill:       999px;
+  --r-input:      8px;
+
+  /* --- Motion --- */
+  --t-fast:   100ms ease;
+  --t-base:   200ms ease;
+  --t-slow:   380ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ============================================================
+   LIGHT THEME
+   ============================================================ */
+[data-theme="light"] {
+  --bg:           #f2f4f8;
+  --surface:      #ffffff;
+  --surface-alt:  #eef0f5;
+  --border:       #d5d9e3;
+  --text:         #343b58;
+  --text-muted:   #8c93a8;
+  --accent:       #2959aa;
+  --accent-hover: #1e4390;
+  --correct:      #3d6b1a;
+  --error-text:   #c44a4a;
+  --error-bg:     rgba(196, 74, 74, 0.12);
+  --pending:      #9ba3b8;
+  --caret:        #2959aa;
+  --selection:    rgba(41, 89, 170, 0.2);
+
+  --shadow-sm: 0 1px 4px  rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.18);
+}
+
+/* ============================================================
+   HACKER THEME
+   ============================================================ */
+[data-theme="hacker"] {
+  --bg:           #000000;
+  --surface:      #080808;
+  --surface-alt:  #101010;
+  --border:       #1c3a1c;
+  --text:         #00ff41;
+  --text-muted:   #00882b;
+  --accent:       #00ff41;
+  --accent-hover: #00d436;
+  --correct:      #00ff41;
+  --error-text:   #ff4444;
+  --error-bg:     rgba(255, 68, 68, 0.15);
+  --pending:      #1c3a1c;
+  --caret:        #00ff41;
+  --selection:    rgba(0, 255, 65, 0.2);
+
+  --shadow-sm: 0 1px 4px  rgba(0, 255, 65, 0.08);
+  --shadow-md: 0 4px 16px rgba(0, 255, 65, 0.12);
+  --shadow-lg: 0 8px 40px rgba(0, 255, 65, 0.18);
+}
+
+/* ============================================================
+   FONT OVERRIDES
+   ============================================================ */
+[data-font="mono"] {
+  --font-ui: var(--font-mono);
+}
+[data-font="sans"] {
+  --font-ui: system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+[data-font="serif"] {
+  --font-ui: Georgia, 'Times New Roman', serif;
+}

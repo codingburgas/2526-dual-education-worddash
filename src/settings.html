@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-lang="en" data-font="mono" data-caret="line">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WordDash — Settings</title>
+
+  <script>
+    (function () {
+      try {
+        var s = JSON.parse(localStorage.getItem('wds_settings') || '{}');
+        var l = localStorage.getItem('wds_lang');
+        var h = document.documentElement;
+        h.dataset.theme = s.theme || 'dark';
+        h.dataset.lang  = l ? JSON.parse(l) : 'en';
+        h.dataset.font  = s.font  || 'mono';
+        h.dataset.caret = s.caret || 'line';
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="stylesheet" href="css/themes.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="stylesheet" href="css/settings.css" />
+</head>
+<body>
+
+  <nav id="main-nav" role="navigation" aria-label="Main navigation"></nav>
+
+  <main>
+    <div class="settings-layout">
+
+      <header class="page-header">
+        <h1 data-i18n="settings.title">Settings</h1>
+        <p data-i18n="settings.subtitle">Changes are saved automatically</p>
+      </header>
+
+      <form id="settings-form" novalidate>
+
+        <!-- Theme -->
+        <section class="setting-card">
+          <p class="setting-title" data-i18n="settings.theme">Theme</p>
+          <div class="theme-group">
+            <input type="radio" name="theme" id="theme-dark" value="dark" />
+            <label class="theme-swatch" for="theme-dark">
+              <span class="swatch-preview dark-swatch">Aa</span>
+              <span class="swatch-label" data-i18n="settings.theme-dark">Dark</span>
+            </label>
+
+            <input type="radio" name="theme" id="theme-light" value="light" />
+            <label class="theme-swatch" for="theme-light">
+              <span class="swatch-preview light-swatch">Aa</span>
+              <span class="swatch-label" data-i18n="settings.theme-light">Light</span>
+            </label>
+
+            <input type="radio" name="theme" id="theme-hacker" value="hacker" />
+            <label class="theme-swatch" for="theme-hacker">
+              <span class="swatch-preview hacker-swatch">Aa</span>
+              <span class="swatch-label" data-i18n="settings.theme-hacker">Hacker</span>
+            </label>
+          </div>
+        </section>
+
+        <!-- Font -->
+        <section class="setting-card">
+          <p class="setting-title" data-i18n="settings.font">Font</p>
+          <div class="pill-group">
+            <input type="radio" name="font" id="font-mono" value="mono" />
+            <label for="font-mono" data-i18n="settings.font-mono">Monospace</label>
+
+            <input type="radio" name="font" id="font-sans" value="sans" />
+            <label for="font-sans" data-i18n="settings.font-sans">Sans-serif</label>
+          </div>
+        </section>
+
+        <!-- Caret style -->
+        <section class="setting-card">
+          <p class="setting-title" data-i18n="settings.caret">Caret Style</p>
+          <div class="pill-group">
+            <input type="radio" name="caret" id="caret-line" value="line" />
+            <label for="caret-line" data-i18n="settings.caret-line">Line</label>
+
+            <input type="radio" name="caret" id="caret-block" value="block" />
+            <label for="caret-block" data-i18n="settings.caret-block">Block</label>
+
+            <input type="radio" name="caret" id="caret-underline" value="underline" />
+            <label for="caret-underline" data-i18n="settings.caret-under">Underline</label>
+          </div>
+
+          <div class="caret-preview-wrap">
+            <span class="caret-preview-label" data-i18n="settings.preview">Preview</span>
+            <span class="caret-preview-text">
+              word<span class="caret-char preview-line">s</span>per minute
+            </span>
+          </div>
+        </section>
+
+        <!-- Difficulty -->
+        <section class="setting-card">
+          <p class="setting-title" data-i18n="settings.difficulty">Difficulty</p>
+          <div class="pill-group">
+            <input type="radio" name="difficulty" id="diff-easy" value="easy" />
+            <label for="diff-easy" data-i18n="settings.diff-easy">Easy</label>
+
+            <input type="radio" name="difficulty" id="diff-medium" value="medium" />
+            <label for="diff-medium" data-i18n="settings.diff-medium">Medium</label>
+
+            <input type="radio" name="difficulty" id="diff-hard" value="hard" />
+            <label for="diff-hard" data-i18n="settings.diff-hard">Hard</label>
+
+            <input type="radio" name="difficulty" id="diff-mixed" value="mixed" />
+            <label for="diff-mixed" data-i18n="settings.diff-mixed">Mixed</label>
+          </div>
+        </section>
+
+      </form>
+    </div>
+  </main>
+
+  <script src="js/data/i18n/en.js"></script>
+  <script src="js/data/i18n/bg.js"></script>
+  <script src="js/worddash.js"></script>
+  <script src="js/pages/settings.js"></script>
+</body>
+</html>
