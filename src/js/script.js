@@ -9,6 +9,7 @@
 
   var DEFAULTS = { time: 60, words: 25, quote: 'short', zen: null };
 
+  // Bootstraps all modules, wires mode tabs, option buttons, input events, and keyboard shortcuts
   document.addEventListener('DOMContentLoaded', function () {
     WD.settings.apply();
     WD.i18n.applyTranslations();
@@ -82,6 +83,7 @@
     });
   });
 
+  // Switches to a new mode/option, updates all UI controls, and reloads content
   function _setMode(mode, option) {
     _mode   = mode;
     _option = (option !== undefined && option !== null) ? option : DEFAULTS[mode];
@@ -93,6 +95,7 @@
     _loadContent();
   }
 
+  // Fetches typed content for the active mode, renders it, and resets all UI state
   function _loadContent() {
     var lang = WD.i18n.getLanguage();
     var s    = WD.settings.load();
@@ -113,6 +116,7 @@
     WD.ui.focusInput();
   }
 
+  // Marks the test as started and kicks off the timer in countdown or count-up mode
   function _startTest() {
     _started = true;
     _running = true;
@@ -124,6 +128,7 @@
     }
   }
 
+  // Each-second callback: updates the timer display and live WPM/accuracy readouts
   function _onTick(remaining, elapsed) {
     var ta    = document.getElementById('text-input');
     var typed = ta ? ta.value : '';
@@ -143,6 +148,7 @@
     }
   }
 
+  // Stops the timer, computes final results, shows the results panel, and prompts to save
   function _endTest() {
     if (!_started || !_running) return;
 
@@ -193,6 +199,7 @@
     });
   }
 
+  // Stops any running test and reloads fresh content in the same mode
   function _restartTest() {
     WD.timer.stop();
     _running = false;
@@ -202,6 +209,7 @@
     _setMode(_mode, _option);
   }
 
+  // Sets the timer display to the countdown start value, or '00:00' for count-up modes
   function _resetTimer() {
     if (_mode === 'time') {
       WD.ui.setTimer(WD.calc.formatTime(_option));

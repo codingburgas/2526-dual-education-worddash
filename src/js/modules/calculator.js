@@ -1,18 +1,22 @@
+// Calculates gross WPM: all typed words divided by elapsed time, scaled to 60 seconds
 export const grossWPM = (wordCount, elapsedSeconds) => {
   if (!elapsedSeconds || elapsedSeconds < 0.5) return 0;
   return Math.round((wordCount / elapsedSeconds) * 60);
 };
 
+// Calculates net WPM using only correctly typed words, floored at 0
 export const netWPM = (correctWords, elapsedSeconds) => {
   if (!elapsedSeconds || elapsedSeconds < 0.5) return 0;
   return Math.max(0, Math.round((correctWords / elapsedSeconds) * 60));
 };
 
+// Returns accuracy as a rounded percentage of correct characters out of total typed
 export const accuracy = (totalTyped, correctChars) => {
   if (!totalTyped) return 100;
   return Math.round((correctChars / totalTyped) * 100);
 };
 
+// Compares typed vs original character-by-character, returning correct/incorrect/extra/missing counts
 export const charStats = (typed, original) => {
   let correct = 0;
   let incorrect = 0;
@@ -29,9 +33,11 @@ export const charStats = (typed, original) => {
   return { correct, incorrect, extra, missing };
 };
 
+// Counts space-separated words in a string, ignoring leading/trailing whitespace
 export const wordCount = (text) =>
   text.trim().split(/\s+/).filter(Boolean).length;
 
+// Counts words that match the original exactly by position
 export const correctWordCount = (typed, original) => {
   const typedWords    = typed.trim().split(/\s+/);
   const originalWords = original.trim().split(/\s+/);
@@ -42,6 +48,7 @@ export const correctWordCount = (typed, original) => {
   return correct;
 };
 
+// Formats a total-seconds value as MM:SS, expanding to HH:MM:SS when over an hour
 export const formatTime = (totalSeconds) => {
   const s = Math.floor(Math.abs(totalSeconds));
   const h = Math.floor(s / 3600);

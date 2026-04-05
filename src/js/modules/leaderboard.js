@@ -3,6 +3,7 @@ import { t }   from './i18n.js';
 
 const MEDALS = ['🥇', '🥈', '🥉'];
 
+// Bootstraps the leaderboard: loads scores, renders the table, and wires filters and action buttons
 export const init = () => {
   db.init();
   renderTable(db.getAll());
@@ -10,6 +11,7 @@ export const init = () => {
   _bindActions();
 };
 
+// Renders up to 20 score rows with medal badges for the top 3, or an empty-state message
 export const renderTable = (scores) => {
   const tbody = document.querySelector('#scores-table tbody');
   if (!tbody) return;
@@ -41,6 +43,7 @@ export const renderTable = (scores) => {
   `).join('');
 };
 
+// Wires mode and language filter dropdowns to re-render the table on change
 const _bindFilters = () => {
   const modeEl = document.getElementById('filter-mode');
   const langEl = document.getElementById('filter-lang');
@@ -56,6 +59,7 @@ const _bindFilters = () => {
   langEl?.addEventListener('change', refresh);
 };
 
+// Wires the export, import (file reader), and clear-all action buttons
 const _bindActions = () => {
   document.getElementById('export-btn')?.addEventListener('click', () => {
     db.exportJSON();
@@ -82,11 +86,13 @@ const _bindActions = () => {
   });
 };
 
+// Escapes HTML special characters to prevent XSS when injecting score data into the DOM
 const _esc = (str = '') =>
   String(str).replace(/[&<>"']/g, (m) =>
     ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[m]
   );
 
+// Formats an ISO date string as a locale date string, returning an em dash on failure
 const _fmtDate = (iso) => {
   try { return new Date(iso).toLocaleDateString(); }
   catch { return '—'; }

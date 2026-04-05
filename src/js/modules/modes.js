@@ -10,6 +10,7 @@ let _onEnd   = null;
 
 const DEFAULTS = { time: 60, words: 25, quote: 'short', zen: null };
 
+// Bootstraps the mode manager, wires the language-change listener, and defaults to time/60
 export const init = (onEnd) => {
   _onEnd = onEnd;
 
@@ -20,6 +21,7 @@ export const init = (onEnd) => {
   setMode('time', 60);
 };
 
+// Switches to a new mode/option, updates all UI controls, and reloads content
 export const setMode = (mode, option) => {
   _mode   = mode;
   _option = option !== undefined ? option : DEFAULTS[mode];
@@ -31,6 +33,7 @@ export const setMode = (mode, option) => {
   _loadContent();
 };
 
+// Simple state accessors for the active mode, option, text, running flag, and end callback
 export const getMode    = () => _mode;
 export const getOption  = () => _option;
 export const getText    = () => _text;
@@ -38,6 +41,7 @@ export const isRunning  = () => _running;
 export const setRunning = (v) => { _running = v; };
 export const getOnEnd   = () => _onEnd;
 
+// Reads current language and difficulty, fetches matching text, then fires 'contentloaded'
 const _loadContent = () => {
   const lang = document.documentElement.dataset.lang || 'en';
 
@@ -51,6 +55,7 @@ const _loadContent = () => {
   );
 };
 
+// Builds the options object passed to paragraph.getContent based on the active mode
 const _buildOptions = (difficulty) => {
   switch (_mode) {
     case 'words': return { count: _option, difficulty };

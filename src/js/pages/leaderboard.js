@@ -3,6 +3,7 @@
 
   var MEDALS = ['\uD83E\uDD47', '\uD83E\uDD48', '\uD83E\uDD49'];
 
+  // Initializes the leaderboard page: applies settings, translations, nav, and renders the table
   document.addEventListener('DOMContentLoaded', function () {
     WD.settings.apply();
     WD.i18n.applyTranslations();
@@ -14,6 +15,7 @@
     _bindActions();
   });
 
+  // Renders up to 20 score rows with medal badges for the top 3, or an empty-state message
   function _renderTable(scores) {
     var tbody = document.querySelector('#scores-table tbody');
     if (!tbody) return;
@@ -38,6 +40,7 @@
     }).join('');
   }
 
+  // Wires mode and language filter dropdowns to re-render the table on change
   function _bindFilters() {
     var modeEl = document.getElementById('filter-mode');
     var langEl = document.getElementById('filter-lang');
@@ -53,6 +56,7 @@
     if (langEl) langEl.addEventListener('change', refresh);
   }
 
+  // Wires the export, import (file reader), and clear-all action buttons
   function _bindActions() {
     var t = WD.i18n.t.bind(WD.i18n);
 
@@ -82,12 +86,14 @@
     });
   }
 
+  // Escapes HTML special characters to prevent XSS when injecting score data into the DOM
   function _esc(str) {
     return String(str || '').replace(/[&<>"']/g, function (m) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
     });
   }
 
+  // Formats an ISO date string as a locale date string, returning an em dash on failure
   function _fmtDate(iso) {
     try { return new Date(iso).toLocaleDateString(); } catch (e) { return '\u2014'; }
   }

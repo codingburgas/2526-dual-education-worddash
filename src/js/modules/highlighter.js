@@ -1,8 +1,10 @@
 let _el   = null;
 let _text = '';
 
+// Stores a reference to the paragraph display element for all subsequent operations
 export const init = (el) => { _el = el; };
 
+// Renders the target text as individual character <span>s, each marked 'pending'
 export const renderParagraph = (text) => {
   if (!_el) return;
   _text = text;
@@ -15,6 +17,7 @@ export const renderParagraph = (text) => {
     .join('');
 };
 
+// Classifies each character span as correct/incorrect/pending and positions the caret
 export const updateHighlight = (typed) => {
   if (!_el || !_text) return;
 
@@ -38,6 +41,7 @@ export const updateHighlight = (typed) => {
   }
 };
 
+// Resets all character spans back to 'pending' without re-rendering the text
 export const reset = () => {
   if (!_el) return;
   _el.querySelectorAll('.char').forEach((s) => {
@@ -45,6 +49,7 @@ export const reset = () => {
   });
 };
 
+// Returns the fraction of text typed (0–1), capped at 1
 export const progressFraction = (typed) => {
   if (!_text.length) return 0;
   return Math.min(1, typed.length / _text.length);

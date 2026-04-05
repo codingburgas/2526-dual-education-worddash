@@ -5,6 +5,7 @@ import { en as wordsEn, bg as wordsBg } from '../data/words.js';
 const pool = { en: wordsEn, bg: wordsBg };
 const rand = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
+// Returns typing content: random words for 'words' mode, a filtered quote for 'quote', or a difficulty-filtered paragraph otherwise
 export const getContent = (mode, options = {}, lang = 'en') => {
   const { difficulty = 'mixed', length = 'mixed', count = 25 } = options;
 

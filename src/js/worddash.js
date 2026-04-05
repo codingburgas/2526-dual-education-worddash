@@ -7,6 +7,7 @@
   var SETTINGS_KEY = 'wds_settings';
   var LANG_KEY     = 'wds_lang';
 
+  // localStorage wrapper: get parses JSON, set serializes it, remove deletes the key
   WD.storage = {
     SCORES_KEY:   SCORES_KEY,
     SETTINGS_KEY: SETTINGS_KEY,
@@ -25,6 +26,7 @@
 
   var SETTING_DEFAULTS = { theme: 'dark', font: 'mono', caret: 'line', difficulty: 'mixed' };
 
+  // Settings: load merges defaults with storage, save persists a partial update, apply sets data-attributes
   WD.settings = {
     load: function () {
       return Object.assign({}, SETTING_DEFAULTS, WD.storage.get(SETTINGS_KEY) || {});
@@ -43,6 +45,7 @@
   var _lang = WD.storage.get(LANG_KEY) || 'en';
   var _tr   = window.WD_I18N || { en: {}, bg: {} };
 
+  // i18n: setLanguage persists and broadcasts locale, t() looks up keys, applyTranslations fills the DOM
   WD.i18n = {
     getLanguage: function () { return _lang; },
     setLanguage: function (lang) {
@@ -75,6 +78,7 @@
 
   var KB_SVG = '<svg class="nav-brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="10" x2="6.01" y2="10"/><line x1="10" y1="10" x2="10.01" y2="10"/><line x1="14" y1="10" x2="14.01" y2="10"/><line x1="18" y1="10" x2="18.01" y2="10"/><line x1="8" y1="14" x2="16" y2="14"/></svg>';
 
+  // Builds and injects the full nav HTML, then wires the language toggle and hamburger button
   WD.nav = {
     render: function (activePage) {
       activePage = activePage || 'home';
@@ -119,6 +123,7 @@
 
   var _cache = [];
 
+  // Score database: init loads from storage, add/getAll/remove/clear manage the cache, export/importJSON handle file I/O
   WD.db = {
     init: function () { _cache = WD.storage.get(SCORES_KEY) || []; },
     add: function (entry) {
@@ -157,11 +162,14 @@
     }
   };
 
+  // Checks that an entry has the required fields: name (string), wpm and accuracy (numbers), mode (string)
   function _dbOk(e) {
     return e != null && typeof e.name === 'string' && typeof e.wpm === 'number' && typeof e.accuracy === 'number' && typeof e.mode === 'string';
   }
+  // Writes the current in-memory cache to localStorage
   function _dbSave() { WD.storage.set(SCORES_KEY, _cache); }
 
+  // Returns typing content: random words for 'words' mode, a filtered quote for 'quote', or a difficulty-filtered paragraph otherwise
   WD.paragraph = {
     getContent: function (mode, options, lang) {
       options = options || {};
@@ -198,6 +206,7 @@
     }
   };
 
+  // Calculation helpers: WPM (gross/net), accuracy, character/word stats, and time formatting
   WD.calc = {
     grossWPM: function (words, sec) {
       if (!sec || sec < 0.5) return 0;
@@ -231,6 +240,7 @@
 
   var _ivl = null, _t0 = null, _dur = null, _tickCb = null, _endCb = null;
 
+  // Fires the tick callback with remaining/elapsed values, and calls _endCb when countdown reaches 0
   function _doTick() {
     var el = (Date.now() - _t0) / 1000;
     if (_dur !== null) {
@@ -242,6 +252,7 @@
     }
   }
 
+  // Timer: start runs countdown or count-up via setInterval, stop clears it, reset wipes state, getElapsed returns seconds
   WD.timer = {
     start: function (countdown, duration, onTick, onEnd) {
       WD.timer.stop();
@@ -258,6 +269,7 @@
 
   var _hlEl = null, _hlText = '';
 
+  // Highlighter: render builds char spans, update classifies them correct/incorrect/pending, progress returns 0-1 fraction
   WD.highlighter = {
     init: function (el) { _hlEl = el; },
     render: function (text) {
@@ -284,6 +296,7 @@
 
   function $i(id) { return document.getElementById(id); }
 
+  // UI helpers: update timer/stats/progress displays, manage mode tabs and options, show/hide results and save prompt
   WD.ui = {
     setTimer:    function (str) { var e = $i('timer-display');  if (e) e.textContent = str; },
     setStats:    function (wpm, acc) {

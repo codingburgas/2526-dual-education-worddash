@@ -3,6 +3,7 @@ import * as db   from './database.js';
 import * as ui   from './ui.js';
 import { getMode, getOption } from './modes.js';
 
+// Computes all end-of-test statistics from raw typing data and the active mode context
 export const compile = (typed, original, elapsedMs, lang = 'en') => {
   const elapsed = elapsedMs / 1000;
   const words   = calc.wordCount(typed);
@@ -29,10 +30,12 @@ export const compile = (typed, original, elapsedMs, lang = 'en') => {
   };
 };
 
+// Hands the compiled results object off to the UI for display
 export const render = (resultsObj) => {
   ui.showResultsPanel(resultsObj);
 };
 
+// Persists a named results entry to the score database
 export const onSave = (name, resultsObj) => {
   db.add({
     name,

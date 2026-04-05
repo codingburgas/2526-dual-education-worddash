@@ -1,6 +1,7 @@
 (function () {
   'use strict';
 
+  // Initializes the settings page: applies saved settings, pre-selects radio inputs, and wires the form
   document.addEventListener('DOMContentLoaded', function () {
     var s = WD.settings.load();
     WD.settings.apply(s);
@@ -26,6 +27,7 @@
     });
   });
 
+  // Updates the caret preview element's class to reflect the selected caret style
   function _updateCaretPreview(caret) {
     document.querySelectorAll('.caret-char').forEach(function (el) {
       el.className = 'caret-char preview-' + caret;

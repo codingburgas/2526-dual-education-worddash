@@ -11,6 +11,7 @@ const KEYBOARD_SVG = `<svg class="nav-brand-icon" viewBox="0 0 24 24" fill="none
   <line x1="8"  y1="14" x2="16"    y2="14"/>
 </svg>`;
 
+// Builds and injects the full nav HTML, then wires the language toggle and hamburger button
 export const renderNav = (activePage = 'home') => {
   const nav = document.getElementById('main-nav');
   if (!nav) return;
