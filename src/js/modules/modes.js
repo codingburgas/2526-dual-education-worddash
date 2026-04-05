@@ -2,8 +2,6 @@ import { getContent } from './paragraph.js';
 import { get, SETTINGS_KEY } from './storage.js';
 import * as ui from './ui.js';
 
-// ── State ────────────────────────────────────────────────────
-
 let _mode    = 'time';
 let _option  = 60;
 let _text    = '';
@@ -12,12 +10,9 @@ let _onEnd   = null;
 
 const DEFAULTS = { time: 60, words: 25, quote: 'short', zen: null };
 
-// ── Public API ───────────────────────────────────────────────
-
 export const init = (onEnd) => {
   _onEnd = onEnd;
 
-  // Listen for language switch — reload content if not mid-test
   document.addEventListener('languagechange', () => {
     if (!_running) _loadContent();
   });
@@ -43,10 +38,7 @@ export const isRunning  = () => _running;
 export const setRunning = (v) => { _running = v; };
 export const getOnEnd   = () => _onEnd;
 
-// ── Private ──────────────────────────────────────────────────
-
 const _loadContent = () => {
-  // Read language from <html> data attribute (set by i18n.js)
   const lang = document.documentElement.dataset.lang || 'en';
 
   const difficulty = get(SETTINGS_KEY)?.difficulty || 'mixed';
@@ -54,7 +46,6 @@ const _loadContent = () => {
 
   _text = getContent(_mode, options, lang);
 
-  // Signal to script.js via CustomEvent (avoids reverse coupling)
   document.dispatchEvent(
     new CustomEvent('contentloaded', { detail: { text: _text } })
   );

@@ -1,16 +1,8 @@
-/**
- * WordDash — Shared Library
- * All modules in one global WD object. No ES module imports.
- * Works on file:// and any server.
- */
 (function () {
   'use strict';
 
   var WD = window.WD = {};
 
-  // ══════════════════════════════════════════════════════════════
-  //  STORAGE
-  // ══════════════════════════════════════════════════════════════
   var SCORES_KEY   = 'wds_scores';
   var SETTINGS_KEY = 'wds_settings';
   var LANG_KEY     = 'wds_lang';
@@ -31,9 +23,6 @@
     }
   };
 
-  // ══════════════════════════════════════════════════════════════
-  //  SETTINGS
-  // ══════════════════════════════════════════════════════════════
   var SETTING_DEFAULTS = { theme: 'dark', font: 'mono', caret: 'line', difficulty: 'mixed' };
 
   WD.settings = {
@@ -51,9 +40,6 @@
     }
   };
 
-  // ══════════════════════════════════════════════════════════════
-  //  I18N
-  // ══════════════════════════════════════════════════════════════
   var _lang = WD.storage.get(LANG_KEY) || 'en';
   var _tr   = window.WD_I18N || { en: {}, bg: {} };
 
@@ -87,9 +73,6 @@
     }
   };
 
-  // ══════════════════════════════════════════════════════════════
-  //  NAV
-  // ══════════════════════════════════════════════════════════════
   var KB_SVG = '<svg class="nav-brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="10" x2="6.01" y2="10"/><line x1="10" y1="10" x2="10.01" y2="10"/><line x1="14" y1="10" x2="14.01" y2="10"/><line x1="18" y1="10" x2="18.01" y2="10"/><line x1="8" y1="14" x2="16" y2="14"/></svg>';
 
   WD.nav = {
@@ -134,9 +117,6 @@
     }
   };
 
-  // ══════════════════════════════════════════════════════════════
-  //  DATABASE
-  // ══════════════════════════════════════════════════════════════
   var _cache = [];
 
   WD.db = {
@@ -182,9 +162,6 @@
   }
   function _dbSave() { WD.storage.set(SCORES_KEY, _cache); }
 
-  // ══════════════════════════════════════════════════════════════
-  //  PARAGRAPH CONTENT
-  // ══════════════════════════════════════════════════════════════
   WD.paragraph = {
     getContent: function (mode, options, lang) {
       options = options || {};
@@ -213,7 +190,6 @@
         return (eq && (eq[lang] || eq.en)) || '';
       }
 
-      // time / zen
       var fp = paras;
       if (difficulty !== 'mixed') fp = paras.filter(function (p) { return p.difficulty === difficulty; });
       if (!fp.length) fp = paras;
@@ -222,9 +198,6 @@
     }
   };
 
-  // ══════════════════════════════════════════════════════════════
-  //  CALCULATOR  (pure functions)
-  // ══════════════════════════════════════════════════════════════
   WD.calc = {
     grossWPM: function (words, sec) {
       if (!sec || sec < 0.5) return 0;
@@ -256,9 +229,6 @@
     }
   };
 
-  // ══════════════════════════════════════════════════════════════
-  //  TIMER
-  // ══════════════════════════════════════════════════════════════
   var _ivl = null, _t0 = null, _dur = null, _tickCb = null, _endCb = null;
 
   function _doTick() {
@@ -286,9 +256,6 @@
     isRunning:  function () { return _ivl !== null; }
   };
 
-  // ══════════════════════════════════════════════════════════════
-  //  HIGHLIGHTER  (owns #paragraph-display)
-  // ══════════════════════════════════════════════════════════════
   var _hlEl = null, _hlText = '';
 
   WD.highlighter = {
@@ -315,9 +282,6 @@
     getText:  function ()      { return _hlText; }
   };
 
-  // ══════════════════════════════════════════════════════════════
-  //  UI  (owns all other DOM elements)
-  // ══════════════════════════════════════════════════════════════
   function $i(id) { return document.getElementById(id); }
 
   WD.ui = {
@@ -378,7 +342,6 @@
       var btn   = $i('save-score-btn');
       var input = $i('player-name-input');
       if (!btn || !input) return;
-      // Replace button to clear old listeners
       var fresh = btn.cloneNode(true);
       btn.parentNode.replaceChild(fresh, btn);
       fresh.addEventListener('click', function () {

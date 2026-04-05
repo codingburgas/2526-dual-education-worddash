@@ -1,7 +1,3 @@
-/**
- * pages/settings.js — settings.html logic
- * Depends on: worddash.js (WD global)
- */
 (function () {
   'use strict';
 
@@ -14,7 +10,6 @@
     var form = document.getElementById('settings-form');
     if (!form) return;
 
-    // Mark the current settings in the form
     ['theme', 'font', 'caret', 'difficulty'].forEach(function (key) {
       var radio = form.querySelector('[name="' + key + '"][value="' + s[key] + '"]');
       if (radio) radio.checked = true;
@@ -22,7 +17,6 @@
 
     _updateCaretPreview(s.caret);
 
-    // Auto-save and apply on every change
     form.addEventListener('change', function () {
       var updated = {};
       new FormData(form).forEach(function (val, key) { updated[key] = val; });

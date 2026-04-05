@@ -5,15 +5,8 @@ import { get, set, LANG_KEY } from './storage.js';
 const translations = { en, bg };
 let _lang = get(LANG_KEY) || 'en';
 
-/** Returns the current language code ('en' | 'bg') */
 export const getLanguage = () => _lang;
 
-/**
- * Switch language: saves choice, updates DOM attribute,
- * runs a full translation pass, and fires the 'languagechange'
- * CustomEvent so other modules (modes.js) can react without
- * being directly coupled to i18n.
- */
 export const setLanguage = (lang) => {
   if (lang !== 'en' && lang !== 'bg') return;
   _lang = lang;
@@ -23,16 +16,9 @@ export const setLanguage = (lang) => {
   document.dispatchEvent(new CustomEvent('languagechange', { detail: { lang } }));
 };
 
-/** Translate a key, falling back to English, then to the key itself */
 export const t = (key) =>
   translations[_lang]?.[key] ?? translations.en?.[key] ?? key;
 
-/**
- * One-pass DOM update:
- *   [data-i18n]             → textContent
- *   [data-i18n-placeholder] → placeholder attribute
- *   [data-i18n-aria]        → aria-label attribute
- */
 export const applyTranslations = () => {
   document.querySelectorAll('[data-i18n]').forEach((el) => {
     el.textContent = t(el.dataset.i18n);

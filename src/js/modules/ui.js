@@ -1,10 +1,5 @@
-// ui.js — owns all DOM elements EXCEPT #paragraph-display spans.
-// Pure write functions: receives data, updates DOM. No logic.
-
 const $ = (id) => document.getElementById(id);
 const $$ = (sel) => document.querySelectorAll(sel);
-
-// ── Timer & Stats ────────────────────────────────────────────
 
 export const setTimerDisplay = (str) => {
   const el = $('timer-display');
@@ -23,8 +18,6 @@ export const setProgress = (fraction) => {
   if (bar) bar.style.width = `${Math.round(fraction * 100)}%`;
 };
 
-// ── Mode tabs ────────────────────────────────────────────────
-
 export const setModeTab = (mode) => {
   $$('.mode-tab').forEach((tab) => {
     tab.classList.toggle('active', tab.dataset.mode === mode);
@@ -33,7 +26,6 @@ export const setModeTab = (mode) => {
 };
 
 export const setSubOptions = (mode) => {
-  // Hide all option groups, show the relevant one
   $$('.options-group').forEach((g) => g.classList.add('hidden'));
   const active = $(`options-${mode}`);
   if (active) active.classList.remove('hidden');
@@ -44,8 +36,6 @@ export const setActiveOption = (value) => {
     opt.classList.toggle('active', opt.dataset.value === String(value));
   });
 };
-
-// ── Typing area ──────────────────────────────────────────────
 
 export const resetTextarea = () => {
   const el = $('text-input');
@@ -61,8 +51,6 @@ export const disableTextarea = () => {
   const el = $('text-input');
   if (el) el.disabled = true;
 };
-
-// ── Results panel ────────────────────────────────────────────
 
 export const showResultsPanel = (data) => {
   const panel = $('results-panel');
@@ -97,7 +85,6 @@ export const showSavePrompt = (onSave) => {
   const input = $('player-name-input');
   if (!btn || !input) return;
 
-  // Remove previous listener by replacing the button
   const freshBtn = btn.cloneNode(true);
   btn.replaceWith(freshBtn);
 

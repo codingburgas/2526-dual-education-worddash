@@ -1,7 +1,3 @@
-/**
- * pages/leaderboard.js — leaderboard.html logic
- * Depends on: worddash.js (WD global)
- */
 (function () {
   'use strict';
 

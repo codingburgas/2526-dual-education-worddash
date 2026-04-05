@@ -3,13 +3,6 @@ import * as db   from './database.js';
 import * as ui   from './ui.js';
 import { getMode, getOption } from './modes.js';
 
-/**
- * Compile a results object from the finished test.
- * @param {string} typed       what the user typed
- * @param {string} original    the reference text
- * @param {number} elapsedMs   elapsed time in milliseconds
- * @param {string} lang        'en' | 'bg'
- */
 export const compile = (typed, original, elapsedMs, lang = 'en') => {
   const elapsed = elapsedMs / 1000;
   const words   = calc.wordCount(typed);
@@ -36,16 +29,10 @@ export const compile = (typed, original, elapsedMs, lang = 'en') => {
   };
 };
 
-/** Render the results panel (delegates to ui.js) */
 export const render = (resultsObj) => {
   ui.showResultsPanel(resultsObj);
 };
 
-/**
- * Save a score to the database.
- * @param {string} name        player's name
- * @param {object} resultsObj  from compile()
- */
 export const onSave = (name, resultsObj) => {
   db.add({
     name,

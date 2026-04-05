@@ -3,16 +3,12 @@ import { t }   from './i18n.js';
 
 const MEDALS = ['🥇', '🥈', '🥉'];
 
-// ── Bootstrap ────────────────────────────────────────────────
-
 export const init = () => {
   db.init();
   renderTable(db.getAll());
   _bindFilters();
   _bindActions();
 };
-
-// ── Render ───────────────────────────────────────────────────
 
 export const renderTable = (scores) => {
   const tbody = document.querySelector('#scores-table tbody');
@@ -45,8 +41,6 @@ export const renderTable = (scores) => {
   `).join('');
 };
 
-// ── Private ──────────────────────────────────────────────────
-
 const _bindFilters = () => {
   const modeEl = document.getElementById('filter-mode');
   const langEl = document.getElementById('filter-lang');
@@ -63,12 +57,10 @@ const _bindFilters = () => {
 };
 
 const _bindActions = () => {
-  // Export
   document.getElementById('export-btn')?.addEventListener('click', () => {
     db.exportJSON();
   });
 
-  // Import
   document.getElementById('import-input')?.addEventListener('change', (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -77,12 +69,11 @@ const _bindActions = () => {
       const count = db.importJSON(ev.target.result);
       alert(`${t('lb.imported')} ${count} ${t('lb.scores')}`);
       renderTable(db.getAll());
-      e.target.value = ''; // reset file input
+      e.target.value = '';
     };
     reader.readAsText(file);
   });
 
-  // Clear
   document.getElementById('clear-btn')?.addEventListener('click', () => {
     if (window.confirm(t('lb.confirm-clear'))) {
       db.clear();

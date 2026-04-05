@@ -1,11 +1,6 @@
-/**
- * script.js — index.html logic
- * Depends on: worddash.js (WD global) + all data files
- */
 (function () {
   'use strict';
 
-  // ── State ──────────────────────────────────────────────────────
   var _mode    = 'time';
   var _option  = 60;
   var _running = false;
@@ -14,7 +9,6 @@
 
   var DEFAULTS = { time: 60, words: 25, quote: 'short', zen: null };
 
-  // ── Init ───────────────────────────────────────────────────────
   document.addEventListener('DOMContentLoaded', function () {
     WD.settings.apply();
     WD.i18n.applyTranslations();
@@ -22,15 +16,12 @@
     WD.db.init();
     WD.highlighter.init(document.getElementById('paragraph-display'));
 
-    // Language switch reloads content
     document.addEventListener('wdlangchange', function () {
       if (!_running) _loadContent();
     });
 
-    // Initial content load
     _setMode('time', 60);
 
-    // Mode tab buttons
     document.querySelectorAll('.mode-tab').forEach(function (tab) {
       tab.addEventListener('click', function () {
         if (_running) return;
@@ -38,7 +29,6 @@
       });
     });
 
-    // Mode option buttons
     document.querySelectorAll('.mode-option').forEach(function (opt) {
       opt.addEventListener('click', function () {
         if (_running) return;
@@ -48,7 +38,6 @@
       });
     });
 
-    // Typing input
     var textarea = document.getElementById('text-input');
     if (textarea) {
       textarea.addEventListener('input', function () {
@@ -59,14 +48,12 @@
         WD.highlighter.update(typed);
         WD.ui.setProgress(WD.highlighter.progress(typed));
 
-        // Auto-end for words / quote modes
         if (_started && _mode !== 'time' && _mode !== 'zen') {
           if (typed.length >= _text.length) _endTest();
         }
       });
     }
 
-    // Restart / Stop buttons
     var restartBtn = document.getElementById('restart-btn');
     if (restartBtn) restartBtn.addEventListener('click', _restartTest);
 
@@ -75,7 +62,6 @@
       if (_started) _endTest();
     });
 
-    // Results panel buttons
     var tryAgainBtn = document.getElementById('try-again-btn');
     if (tryAgainBtn) tryAgainBtn.addEventListener('click', function () {
       WD.ui.hideResults();
@@ -90,14 +76,11 @@
       _setMode(_mode, _option);
     });
 
-    // Keyboard shortcuts
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Tab') { e.preventDefault(); _restartTest(); }
       if (e.key === 'Escape' && _started) _endTest();
     });
   });
-
-  // ── Mode management ────────────────────────────────────────────
 
   function _setMode(mode, option) {
     _mode   = mode;
@@ -130,8 +113,6 @@
     WD.ui.focusInput();
   }
 
-  // ── Test lifecycle ─────────────────────────────────────────────
-
   function _startTest() {
     _started = true;
     _running = true;
@@ -147,14 +128,12 @@
     var ta    = document.getElementById('text-input');
     var typed = ta ? ta.value : '';
 
-    // Update timer display
     if (_mode === 'time') {
       WD.ui.setTimer(WD.calc.formatTime(remaining != null ? remaining : 0));
     } else {
       WD.ui.setTimer(WD.calc.formatTime(elapsed));
     }
 
-    // Update live stats after half a second
     if (_started && elapsed > 0.5) {
       var words  = WD.calc.wordCount(typed);
       var stats  = WD.calc.charStats(typed, _text);
@@ -175,7 +154,6 @@
     var typed = ta ? ta.value : '';
     WD.ui.disableInput();
 
-    // Compile results
     var elapsed = WD.timer.getElapsed();
     var lang    = WD.i18n.getLanguage();
     var words   = WD.calc.wordCount(typed);

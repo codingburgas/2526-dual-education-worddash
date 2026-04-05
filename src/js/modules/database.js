@@ -6,10 +6,6 @@ export const init = () => {
   _cache = get(SCORES_KEY) || [];
 };
 
-/**
- * Add a score entry. Assigns id and date automatically.
- * Returns the saved entry, or null if validation fails.
- */
 export const add = (entry) => {
   if (!_validate(entry)) return null;
   const saved = {
@@ -22,11 +18,6 @@ export const add = (entry) => {
   return saved;
 };
 
-/**
- * Retrieve scores, optionally filtered.
- * @param {{ mode?: string, language?: string }} filter
- * @returns {object[]} sorted by wpm desc
- */
 export const getAll = (filter = {}) => {
   let result = [..._cache];
   if (filter.mode)     result = result.filter((s) => s.mode === filter.mode);
@@ -39,13 +30,11 @@ export const remove = (id) => {
   _persist();
 };
 
-/** Clear all scores. No confirm() — that is the UI's responsibility. */
 export const clear = () => {
   _cache = [];
   _persist();
 };
 
-/** Trigger a browser download of worddash-scores.json */
 export const exportJSON = () => {
   const data = {
     version:  1,
@@ -64,11 +53,6 @@ export const exportJSON = () => {
   URL.revokeObjectURL(url);
 };
 
-/**
- * Import and merge scores from a JSON string.
- * Skips entries whose id already exists in _cache.
- * @returns {number} count of newly added entries
- */
 export const importJSON = (jsonString) => {
   try {
     const data = JSON.parse(jsonString);
@@ -85,8 +69,6 @@ export const importJSON = (jsonString) => {
     return 0;
   }
 };
-
-// ── Private ──────────────────────────────────────────────────
 
 const _persist = () => set(SCORES_KEY, _cache);
 

@@ -1,6 +1,3 @@
-// storage.js — sole localStorage gatekeeper
-// All values are JSON-serialised. Import key constants from here.
-
 export const SCORES_KEY   = 'wds_scores';
 export const SETTINGS_KEY = 'wds_settings';
 export const LANG_KEY     = 'wds_lang';
@@ -18,8 +15,7 @@ export const set = (key, value) => {
   try {
     localStorage.setItem(key, JSON.stringify(value));
   } catch {
-    // Storage quota exceeded or private-browsing restriction — fail silently
-  }
+}
 };
 
 export const remove = (key) => {
